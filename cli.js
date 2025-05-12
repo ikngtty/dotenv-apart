@@ -9,7 +9,7 @@ const dotenvExpand = require('dotenv-expand').expand
 
 function printHelp () {
   console.log([
-    'Usage: dotenv [--help] [--debug] [-e <path>] [-v <name>=<value>] [-p <variable name>] [-c [environment]] [--no-expand] [-- command]',
+    'Usage: dotenv-apart [--help] [--debug] [-e <path>] [-v <name>=<value>] [-p <variable name>] [-c [environment]] [--no-expand] [-- command]',
     '  --help              print help',
     '  --debug             output the files that would be processed but don\'t actually parse them or run the `command`',
     '  -e <path>           parses the file <path> as a `.env` file and adds the variables to the environment',
