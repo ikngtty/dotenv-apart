@@ -55,12 +55,6 @@ Variables set up from command line have higher priority than from env files.
 
 > Purpose of this is that standard approach `VARIABLE=somevalue <command with arguments>` doesn't work on Windows. The -v flag works on all the platforms.
 
-### Check env variable
-If you want to check the value of an environment variable, use the `-p` flag
-```bash
-$ dotenv-apart -p NODE_ENV
-```
-
 ### Flags to the underlying command
 If you want to pass flags to the inner command use `--` after all the flags to `dotenv-apart`.
 

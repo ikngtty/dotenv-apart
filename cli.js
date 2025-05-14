@@ -9,13 +9,12 @@ const dotenvExpand = require('dotenv-expand').expand
 
 function printHelp () {
   console.log([
-    'Usage: dotenv-apart [--help] [-e <path>] [-v <name>=<value>] [-p <variable name>] [-c [environment]] [--no-expand] [-- command]',
+    'Usage: dotenv-apart [--help] [-e <path>] [-v <name>=<value>] [-c [environment]] [--no-expand] [-- command]',
     '  --help              print help',
     '  -e <path>           parses the file <path> as a `.env` file and adds the variables to the environment',
     '  -e <path>           multiple -e flags are allowed',
     '  -v <name>=<value>   put variable <name> into environment using value <value>',
     '  -v <name>=<value>   multiple -v flags are allowed',
-    '  -p <variable>       print value of <variable> to the console. If you specify this, you do not have to specify a `command`',
     '  -c [environment]    support cascading env variables from `.env`, `.env.<environment>`, `.env.local`, `.env.<environment>.local` files',
     '  --no-expand         skip variable expansion',
     '  -o, --override      override system variables. Cannot be used along with cascade (-c).',
@@ -84,15 +83,6 @@ if (argv.expand !== false) {
   })
 }
 Object.assign(process.env, parsedVariables)
-
-if (argv.p) {
-  let value = process.env[argv.p]
-  if (typeof value === 'string') {
-    value = `${value}`
-  }
-  console.log(value != null ? value : '')
-  process.exit()
-}
 
 const command = argv._[0]
 if (!command) {
