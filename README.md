@@ -48,7 +48,7 @@ Some applications load from `.env`, `.env.development`, `.env.local`, and `.env.
 `dotenv-apart` supports this using the `-c` flag for just `.env` and `.env.local` and `-c development` for the ones above.
 The `-c` flag can be used together with the `-e` flag. The following example will cascade env files located one folder up in the directory tree (`../.env` followed by `../.env.local`):
 ```bash
-dotenv-apart -e ../.env -c 
+dotenv-apart -e ../.env -c
 ```
 
 ### Setting variable from command line
@@ -73,7 +73,7 @@ $ dotenv-apart -p NODE_ENV
 ```
 
 ### Flags to the underlying command
-If you want to pass flags to the inner command use `--` after all the flags to `dotenv-apart`. 
+If you want to pass flags to the inner command use `--` after all the flags to `dotenv-apart`.
 
 E.g. the following command without dotenv-apart:
 ```bash
@@ -83,11 +83,11 @@ mvn exec:java -Dexec.args="-g -f"
 will become the following command with dotenv-apart:
 ```bash
 $ dotenv-apart -- mvn exec:java -Dexec.args="-g -f"
-``` 
+```
 or in case the env file is at `.my-env`
 ```bash
 $ dotenv-apart -e .my-env -- mvn exec:java -Dexec.args="-g -f"
-``` 
+```
 
 ### Variable expansion
 We support expanding env variables inside .env files (See [dotenv-expand](https://github.com/motdotla/dotenv-expand) npm package for more information)
