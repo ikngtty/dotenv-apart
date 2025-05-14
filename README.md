@@ -138,10 +138,6 @@ Example here with npm scripts in a package.json
 
 This example is used in a project setting (has a package.json).  Should always install locally `npm install -D dotenv-apart`
 
-### Debugging
-
-You can add the `--debug` flag to output the `.env` files that would be processed and exit.
-
 ### Override
 
 Override any environment variables that have already been set on your machine with values from your .env file.
