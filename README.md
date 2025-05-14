@@ -32,12 +32,12 @@ $ dotenv-apart -e .env3 -e .env4 -- <command with arguments>
 ```
 
 ### Cascading env variables
-Some applications load from `.env`, `.env.development`, `.env.local`, and `.env.development.local`
+Some applications load from `.env` and `.env.development`
 (see [#37](https://github.com/entropitor/dotenv-cli/issues/37) for more information).
-`dotenv-apart` supports this using the `-c` flag for just `.env` and `.env.local` and `-c development` for the ones above.
-The `-c` flag can be used together with the `-e` flag. The following example will cascade env files located one folder up in the directory tree (`../.env` followed by `../.env.local`):
+`dotenv-apart` supports this using `-c development` for `.env` and `.env.development`.
+The `-c` flag can be used together with the `-e` flag. The following example will cascade env files located one folder up in the directory tree:
 ```bash
-dotenv-apart -e ../.env -c
+dotenv-apart -e ../.env -c development
 ```
 
 ### Setting variable from command line
