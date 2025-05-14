@@ -88,7 +88,7 @@ paths.forEach(function (env) {
 if (argv.expand !== false) {
   dotenvExpand({
     parsed: process.env
-  });
+  })
 }
 Object.assign(process.env, parsedVariables)
 
