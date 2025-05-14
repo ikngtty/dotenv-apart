@@ -2,19 +2,8 @@
 
 ## Installing
 
-NPM
 ```bash
 $ npm install -g github:ikngty/dotenv-apart
-```
-
-Yarn
-```bash
-$ yarn global add github:ikngty/dotenv-apart
-```
-
-pnpm
-```bash
-pnpm add -g github:ikngty/dotenv-apart
 ```
 
 ## Usage
