@@ -5,7 +5,6 @@ const path = require('path')
 
 const argv = require('minimist')(process.argv.slice(2))
 const dotenv = require('dotenv')
-const dotenvExpand = require('dotenv-expand').expand
 
 function printHelp () {
   console.log([
@@ -75,10 +74,6 @@ paths.forEach(function (env) {
   dotenv.config({ path: path.resolve(env), override })
 })
 
-// Expand when all path configs are loaded
-dotenvExpand({
-  parsed: process.env
-})
 Object.assign(process.env, parsedVariables)
 
 const command = argv._[0]

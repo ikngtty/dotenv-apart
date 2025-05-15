@@ -72,17 +72,6 @@ or in case the env file is at `.my-env`
 $ dotenv-apart -e .my-env -- mvn exec:java -Dexec.args="-g -f"
 ```
 
-### Variable expansion
-We support expanding env variables inside .env files (See [dotenv-expand](https://github.com/motdotla/dotenv-expand) npm package for more information)
-
-For example:
-```
-IP=127.0.0.1
-PORT=1234
-APP_URL=http://${IP}:${PORT}
-```
-Using the above example `.env` file, `process.env.APP_URL` would be `http://127.0.0.1:1234`.
-
 ### Variable expansion in the command
 
 If your `.env` file looks like:
