@@ -40,21 +40,6 @@ The `-c` flag can be used together with the `-e` flag. The following example wil
 dotenv-apart -e ../.env -c development
 ```
 
-### Setting variable from command line
-It is possible to set variable directly from command line using the -v flag:
-```bash
-$ dotenv-apart -v VARIABLE=somevalue -- <command with arguments>
-```
-
-Multiple variables can be specified:
-```bash
-$ dotenv-apart -v VARIABLE1=somevalue1 -v VARIABLE2=somevalue2 -- <command with arguments>
-```
-
-Variables set up from command line have higher priority than from env files.
-
-> Purpose of this is that standard approach `VARIABLE=somevalue <command with arguments>` doesn't work on Windows. The -v flag works on all the platforms.
-
 ### Flags to the underlying command
 If you want to pass flags to the inner command use `--` after all the flags to `dotenv-apart`.
 
