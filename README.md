@@ -20,25 +20,10 @@ Alternatively, if you do not need to pass arguments to the command, you can use 
 $ dotenv-apart <command>
 ```
 
-### Custom .env files
-Another .env file could be specified using the -e flag (this will replace loading `.env` file):
-```bash
-$ dotenv-apart -e .env2 -- <command with arguments>
-```
-
-Multiple .env files can be specified, and will be processed in order:
-```bash
-$ dotenv-apart -e .env3 -e .env4 -- <command with arguments>
-```
-
 ### Cascading env variables
 Some applications load from `.env` and `.env.development`
 (see [#37](https://github.com/entropitor/dotenv-cli/issues/37) for more information).
 `dotenv-apart` supports this using `-c development` for `.env` and `.env.development`.
-The `-c` flag can be used together with the `-e` flag. The following example will cascade env files located one folder up in the directory tree:
-```bash
-dotenv-apart -e ../.env -c development
-```
 
 ### Flags to the underlying command
 If you want to pass flags to the inner command use `--` after all the flags to `dotenv-apart`.
@@ -51,10 +36,6 @@ mvn exec:java -Dexec.args="-g -f"
 will become the following command with dotenv-apart:
 ```bash
 $ dotenv-apart -- mvn exec:java -Dexec.args="-g -f"
-```
-or in case the env file is at `.my-env`
-```bash
-$ dotenv-apart -e .my-env -- mvn exec:java -Dexec.args="-g -f"
 ```
 
 ### Variable expansion in the command
@@ -103,7 +84,7 @@ This example is used in a project setting (has a package.json).  Should always i
 Override any environment variables that have already been set on your machine with values from your .env file.
 
 ```bash
-dotenv-apart -e .env.test -o -- jest
+dotenv-apart -o -- jest
 ```
 
 ## License

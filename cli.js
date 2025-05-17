@@ -10,8 +10,6 @@ function printHelp () {
   console.log([
     'Usage: dotenv-apart [--help] [-e <path>] [-c <environment>] [-- command]',
     '  --help              print help',
-    '  -e <path>           parses the file <path> as a `.env` file and adds the variables to the environment',
-    '  -e <path>           multiple -e flags are allowed',
     '  -c <environment>    support cascading env variables from `.env`, `.env.<environment>` files',
     '  -o, --override      override system variables. Cannot be used along with cascade (-c).',
     '  command             `command` is the actual command you want to run. Best practice is to precede this command with ` -- `. Everything after `--` is considered to be your command. So any flags will not be parsed by this tool but be passed to your command. If you do not do it, this tool will strip those flags'
@@ -31,15 +29,7 @@ if (argv.c && override) {
 }
 
 let paths = []
-if (argv.e) {
-  if (typeof argv.e === 'string') {
-    paths.push(argv.e)
-  } else {
-    paths.push(...argv.e)
-  }
-} else {
-  paths.push('.env')
-}
+paths.push('.env')
 
 if (argv.c) {
   paths = paths.reduce((accumulator, path) => accumulator.concat(
