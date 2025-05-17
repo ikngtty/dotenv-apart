@@ -28,6 +28,20 @@ if (argv.c && override) {
   process.exit(1)
 }
 
+// FIXME: `path` module cannot resolve `~`.
+const envDirBase = '~/.envs/'
+
+// The current directory is expected to be like '*/github.com/ikngtty/my-project/'.
+// In this example, the env files are expected to be in
+// '<envDirBase>/github.com/ikngtty/my-project/'.
+const currentDir = path.resolve()
+const currentDirParts = currentDir.split(path.sep)
+if (currentDirParts.length < 4) {
+  console.error('The current directory is too shallow for expectations.')
+  process.exit(1)
+}
+const envDir = path.resolve(envDirBase, ...currentDirParts.slice(-3))
+
 let paths = []
 paths.push('.env')
 
@@ -38,7 +52,7 @@ if (argv.c) {
 }
 
 paths.forEach(function (env) {
-  dotenv.config({ path: path.resolve(env), override })
+  dotenv.config({ path: path.resolve(envDir, env), override })
 })
 
 const command = argv._[0]

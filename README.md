@@ -12,7 +12,11 @@ $ npm install -g github:ikngty/dotenv-apart
 $ dotenv-apart -- <command with arguments>
 ```
 
-This will load the variables from the .env file in the current working directory and then run the command (using the new set of environment variables).
+This will load the variables from the .env file in the directory under `~/.envs` and then run the command (using the new set of environment variables).
+
+The .env file is expected to be in the corresponding directory to the current one.
+If the current one is `~/Projects/src/github.com/ikngtty/my-project`, the .env file is `~/.envs/github.com/ikngtty/my-project/.env`.
+(This location rule of the project directory is Golang's legacy rule and [ghq](https://github.com/x-motemen/ghq)'s one.)
 
 Alternatively, if you do not need to pass arguments to the command, you can use the shorthand:
 
