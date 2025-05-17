@@ -28,8 +28,20 @@ if (argv.c && override) {
   process.exit(1)
 }
 
-// FIXME: `path` module cannot resolve `~`.
-const envDirBase = '~/.envs/'
+function resolveHomePath (target) {
+  if (target !== '~' && target.slice(0, 2) !== '~/') {
+    return target
+  }
+
+  if (!process.env.HOME) {
+    console.error('Cannot resolve the home path. The HOME env var is empty.')
+    process.exit(1)
+  }
+
+  return path.resolve(process.env.HOME, target.slice(2))
+}
+
+const envDirBase = resolveHomePath('~/.envs/')
 
 // The current directory is expected to be like '*/github.com/ikngtty/my-project/'.
 // In this example, the env files are expected to be in
