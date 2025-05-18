@@ -5,20 +5,13 @@ const path = require('path')
 
 const argv = require('minimist')(process.argv.slice(2))
 const dotenv = require('dotenv')
-const dotenvExpand = require('dotenv-expand').expand
 
 function printHelp () {
   console.log([
-    'Usage: dotenv [--help] [--debug] [-e <path>] [-v <name>=<value>] [-p <variable name>] [-c [environment]] [--no-expand] [-- command]',
+    'Usage: dotenv-apart [--help] [-p] [-e <path>] [-c <environment>] [-- command]',
     '  --help              print help',
-    '  --debug             output the files that would be processed but don\'t actually parse them or run the `command`',
-    '  -e <path>           parses the file <path> as a `.env` file and adds the variables to the environment',
-    '  -e <path>           multiple -e flags are allowed',
-    '  -v <name>=<value>   put variable <name> into environment using value <value>',
-    '  -v <name>=<value>   multiple -v flags are allowed',
-    '  -p <variable>       print value of <variable> to the console. If you specify this, you do not have to specify a `command`',
-    '  -c [environment]    support cascading env variables from `.env`, `.env.<environment>`, `.env.local`, `.env.<environment>.local` files',
-    '  --no-expand         skip variable expansion',
+    '  -p                  print the `.env` file path to load',
+    '  -c <environment>    support cascading env variables from `.env`, `.env.<environment>` files',
     '  -o, --override      override system variables. Cannot be used along with cascade (-c).',
     '  command             `command` is the actual command you want to run. Best practice is to precede this command with ` -- `. Everything after `--` is considered to be your command. So any flags will not be parsed by this tool but be passed to your command. If you do not do it, this tool will strip those flags'
   ].join('\n'))
@@ -36,70 +29,49 @@ if (argv.c && override) {
   process.exit(1)
 }
 
-let paths = []
-if (argv.e) {
-  if (typeof argv.e === 'string') {
-    paths.push(argv.e)
-  } else {
-    paths.push(...argv.e)
+function resolveHomePath (target) {
+  if (target !== '~' && target.slice(0, 2) !== '~/') {
+    return target
   }
-} else {
-  paths.push('.env')
-}
 
-if (argv.c) {
-  paths = paths.reduce((accumulator, path) => accumulator.concat(
-    typeof argv.c === 'string'
-      ? [`${path}.${argv.c}.local`, `${path}.local`, `${path}.${argv.c}`, path]
-      : [`${path}.local`, path]
-  ), [])
-}
-
-function validateCmdVariable (param) {
-  const [, key, val] = param.match(/^(\w+)=([\s\S]+)$/m) || []
-  if (!key || !val) {
-    console.error(`Invalid variable name. Expected variable in format '-v variable=value', but got: \`-v ${param}\`.`)
+  if (!process.env.HOME) {
+    console.error('Cannot resolve the home path. The HOME env var is empty.')
     process.exit(1)
   }
 
-  return [key, val]
+  return path.resolve(process.env.HOME, target.slice(2))
 }
-const variables = []
-if (argv.v) {
-  if (typeof argv.v === 'string') {
-    variables.push(validateCmdVariable(argv.v))
-  } else {
-    variables.push(...argv.v.map(validateCmdVariable))
-  }
-}
-const parsedVariables = Object.fromEntries(variables)
 
-if (argv.debug) {
-  console.log(paths)
-  console.log(parsedVariables)
+const envDirBase = resolveHomePath('~/.envs/')
+
+// The current directory is expected to be like '*/github.com/ikngtty/my-project/'.
+// In this example, the env files are expected to be in
+// '<envDirBase>/github.com/ikngtty/my-project/'.
+const currentDir = path.resolve()
+const currentDirParts = currentDir.split(path.sep)
+if (currentDirParts.length < 4) {
+  console.error('The current directory is too shallow for expectations.')
+  process.exit(1)
+}
+const envDir = path.resolve(envDirBase, ...currentDirParts.slice(-3))
+
+if (argv.p) {
+  console.log(path.resolve(envDir, '.env'))
   process.exit()
+}
+
+let paths = []
+paths.push('.env')
+
+if (argv.c) {
+  paths = paths.reduce((accumulator, path) => accumulator.concat(
+    [`${path}.${argv.c}`, path]
+  ), [])
 }
 
 paths.forEach(function (env) {
-  dotenv.config({ path: path.resolve(env), override })
+  dotenv.config({ path: path.resolve(envDir, env), override })
 })
-
-// Expand when all path configs are loaded
-if (argv.expand !== false) {
-  dotenvExpand({
-    parsed: process.env
-  });
-}
-Object.assign(process.env, parsedVariables)
-
-if (argv.p) {
-  let value = process.env[argv.p]
-  if (typeof value === 'string') {
-    value = `${value}`
-  }
-  console.log(value != null ? value : '')
-  process.exit()
-}
 
 const command = argv._[0]
 if (!command) {
