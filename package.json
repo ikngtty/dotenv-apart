@@ -1,5 +1,5 @@
 {
-  "name": "dotenv-apart",
+  "name": "@ikngtty/dotenv-apart",
   "description": "A global executable to run applications with the ENV variables in a dotenv file out of the project directory.",
   "version": "0.0.0",
   "author": "ikngtty",
