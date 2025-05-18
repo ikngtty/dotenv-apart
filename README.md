@@ -3,7 +3,7 @@
 ## Installing
 
 ```bash
-$ npm install -g github:ikngty/dotenv-apart
+$ npm install -g github:ikngtty/dotenv-apart
 ```
 
 ## Usage
