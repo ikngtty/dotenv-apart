@@ -24,6 +24,28 @@ Alternatively, if you do not need to pass arguments to the command, you can use 
 $ dotenv-apart <command>
 ```
 
+### Edit `.env` file
+The expected `.env` path can be shown by `-p` flag:
+
+```bash
+$ dotenv-apart -p
+```
+
+You can use this with other commands to create or edit `.env`.
+For example, to create:
+
+```bash
+$ touch "$(dotenv-apart -p)"
+```
+
+or to edit:
+
+```bash
+$ open "$(dotenv-apart -p)"
+```
+
+etc.
+
 ### Cascading env variables
 Some applications load from `.env` and `.env.development`
 (see [#37](https://github.com/entropitor/dotenv-cli/issues/37) for more information).

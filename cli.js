@@ -8,8 +8,9 @@ const dotenv = require('dotenv')
 
 function printHelp () {
   console.log([
-    'Usage: dotenv-apart [--help] [-e <path>] [-c <environment>] [-- command]',
+    'Usage: dotenv-apart [--help] [-p] [-e <path>] [-c <environment>] [-- command]',
     '  --help              print help',
+    '  -p                  print the `.env` file path to load',
     '  -c <environment>    support cascading env variables from `.env`, `.env.<environment>` files',
     '  -o, --override      override system variables. Cannot be used along with cascade (-c).',
     '  command             `command` is the actual command you want to run. Best practice is to precede this command with ` -- `. Everything after `--` is considered to be your command. So any flags will not be parsed by this tool but be passed to your command. If you do not do it, this tool will strip those flags'
@@ -53,6 +54,11 @@ if (currentDirParts.length < 4) {
   process.exit(1)
 }
 const envDir = path.resolve(envDirBase, ...currentDirParts.slice(-3))
+
+if (argv.p) {
+  console.log(path.resolve(envDir, '.env'))
+  process.exit()
+}
 
 let paths = []
 paths.push('.env')
